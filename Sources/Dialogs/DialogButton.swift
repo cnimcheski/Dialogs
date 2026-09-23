@@ -12,11 +12,22 @@ struct DialogButton: View {
     
     var body: some View {
         if let viewModel {
-            Button(
-                viewModel.title,
-                role: viewModel.type.role,
-                action: viewModel.action ?? {}
-            )
+            switch viewModel.type {
+            case .default,
+                .cancel,
+                .destructive:
+                Button(
+                    viewModel.title,
+                    role: viewModel.type.role,
+                    action: viewModel.action ?? {}
+                )
+            case let .share(viewModel):
+                ShareLink(
+                    item: viewModel.item,
+                    subject: Text(viewModel.subject),
+                    message: viewModel.message.map { Text($0) }
+                )
+            }
         }
     }
 }

@@ -13,10 +13,12 @@ public enum DialogButtonType {
     case `default`
     case cancel
     case destructive
+    case share(DialogShareViewModel)
     
     var role: ButtonRole? {
         switch self {
-        case .default:
+        case .default,
+            .share:
             nil
         case .cancel:
             .cancel
@@ -40,6 +42,25 @@ public struct DialogButtonViewModel: Identifiable {
         self.title = title
         self.type = type
         self.action = action
+    }
+}
+
+// MARK: - DialogShareViewModel
+
+public struct DialogShareViewModel: Identifiable {
+    public let id = UUID()
+    let item: URL
+    let subject: LocalizedStringResource
+    let message: LocalizedStringResource?
+    
+    public init(
+        item: URL,
+        subject: LocalizedStringResource,
+        message: LocalizedStringResource?
+    ) {
+        self.item = item
+        self.subject = subject
+        self.message = message
     }
 }
 
